@@ -16,32 +16,61 @@ combos5_13_str = url5_13_noko_page.children[1].children[1].children.last.childre
 
 combo_strs = [combos1_2_str, combos3_4_str, combos5_13_str]
 
-combos1_2_ary = combos1_2_str.split(" ")
+combo_arys = combo_strs.map {|str| str.split(" ")}
 
-combos1_2_ary.each_with_index.map do |char,index|
-  if char != "nope"
-    next
-  else
-    for idx in (index-5..index) do
-      combos1_2_ary[idx] = nil
+# combos1_2_ary = combos1_2_str.split(" ")
+
+combo_arys.map! do |ary|
+  ary.each_with_index.map do |char,index|
+    if char != "nope"
+      next
+    else
+      for idx in (index-5..index) do
+        ary[idx] = nil
+      end
     end
+  end
+
+  ary.compact!.reject!{ |char| char == ":" }
+end
+
+# combos1_2_ary.each_with_index.map do |char,index|
+#   if char != "nope"
+#     next
+#   else
+#     for idx in (index-5..index) do
+#       combos1_2_ary[idx] = nil
+#     end
+#   end
+# end
+
+# combos1_2_ary.compact!.reject!{ |char| char == ":" }
+
+valid_combos = Hash.new
+
+combo_arys.each do |ary|
+  i = 0
+
+  until i == ary.length
+    hand = ary[i..i+3].join(" ")
+    soln = ary[i+4]
+    valid_combos[hand] = soln
+    i += 5
   end
 end
 
-combos1_2_ary.compact!.reject!{ |char| char == ":" }
-
-i = 0
-valid1_2_combos = Hash.new
-
-until i == combos1_2_ary.length
-  hand = combos1_2_ary[i..i+3].join(" ")
-  soln = combos1_2_ary[i+4]
-  valid1_2_combos[hand] = soln
-  i += 5
-end
+# i = 0
+# valid1_2_combos = Hash.new
+#
+# until i == combos1_2_ary.length
+#   hand = combos1_2_ary[i..i+3].join(" ")
+#   soln = combos1_2_ary[i+4]
+#   valid1_2_combos[hand] = soln
+#   i += 5
+# end
 
 CSV.open("hands.csv", "a+") do |csv|
-  valid1_2_combos.each do |hand,soln|
+  valid_combos.each do |hand,soln|
     csv << [hand, soln]
   end
 end
