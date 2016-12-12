@@ -19,4 +19,4 @@ combos_ary.each_with_index.map do |char,index|
   end
 end
 
-p combos_ary.compact
+p combos_ary.compact.reject{ |char| char == ":" }
