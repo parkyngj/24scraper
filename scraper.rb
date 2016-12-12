@@ -19,4 +19,15 @@ combos_ary.each_with_index.map do |char,index|
   end
 end
 
-p combos_ary.compact.reject{ |char| char == ":" }
+p combos_ary.compact!.reject!{ |char| char == ":" }
+
+i = 0
+valid_combos = Hash.new
+
+until i == combos_ary.length
+
+end
+
+# CSV.open("hands.csv", "a+") do |csv|
+#
+# end
