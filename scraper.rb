@@ -19,14 +19,19 @@ combos_ary.each_with_index.map do |char,index|
   end
 end
 
-p combos_ary.compact!.reject!{ |char| char == ":" }
+combos_ary.compact!.reject!{ |char| char == ":" }
 
 i = 0
 valid_combos = Hash.new
 
 until i == combos_ary.length
-
+  hand = combos_ary[i..i+3].join(" ")
+  soln = combos_ary[i+4]
+  valid_combos[hand] = soln
+  i += 5
 end
+
+p valid_combos
 
 # CSV.open("hands.csv", "a+") do |csv|
 #
